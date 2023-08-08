@@ -11,10 +11,19 @@ spec:
     - host: shirinblog.com
       http:
         paths:
+
           - pathType: Prefix
             backend:
               service:
                 name: auth-srv
                 port:
                   number: 4000
-            path: /api/users/(.*)
+            path: /api/v1/users/(.*)
+
+          - pathType: Prefix
+            backend:
+              service:
+                name: recipe-srv
+                port:
+                  number: 4001
+            path: /api/v1/recipe/(.*)

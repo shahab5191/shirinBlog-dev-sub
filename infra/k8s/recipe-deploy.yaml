@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recipe-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: recipe
+  template:
+    metadata:
+      labels:
+        app: recipe
+    spec:
+      containers:
+        - name: recipe
+          image: shahab5191/shirinblog-recipe:latest
+          env:
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_SECRET
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: recipe-srv
+spec:
+  selector:
+    app: recipe
+  ports:
+    - name: recipe
+      protocol: TCP
+      port: 4001
+      targetPort: 4001
